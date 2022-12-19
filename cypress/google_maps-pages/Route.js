@@ -1,13 +1,13 @@
-import { NavigationPage } from "../../cypress/google_maps-pages/Navigation";
+import { GoogleMapsPage } from "./GoogleMaps";
 
 class Route{
-        longestRoute () {
+        longestRoute (routes) {
         
         let maxRoute= -1;
         let maxText= -1;
         let maxRouteElement=null;
         
-        NavigationPage.allRoutes.each(($el)=>{
+        routes.each(($el)=>{
             let current = $el.text().replace(/\D/g, '')
 
             if( maxRoute < current ) {
@@ -23,11 +23,13 @@ class Route{
         })
     }
 
-    chooseARoute ( currentLocation, destination ) {
-        NavigationPage.dectinationInput.type(destination)
-        NavigationPage.routeBtn.click()
-        NavigationPage.currentLocationInput.type(currentLocation).type('{enter}')
-        NavigationPage.carRoutesBtn.click()
+    chooseADestination ( page , destination ) {
+        page.type(destination)
+        
+    }
+
+    chooseACurrentLocation ( page,currentLocation) {
+        page.type(currentLocation)
     }
 
 }
