@@ -7,12 +7,13 @@ describe('Google maps', () => {
         cy.visit("https://www.google.com/maps/@44.8069632,20.4275712,12z?hl=sr")
         
         RoutePage.chooseARoute("Beograd", "Amsterdam")
-
-        let longestRoute = RoutePage.longestRoute();
-        console.log(longestRoute)
-
-        NavigationPage.ourRoute.click().type('{enter}')
         
-        NavigationPage.choosenRouteKm.should('contain.text', `${longestRoute}`)
+        RoutePage.longestRoute()
+
+        cy.get('@maxRouteElement').click().type('{enter}')
+       
+        cy.get('@maxText').then(maxText => {
+            NavigationPage.choosenRouteKm.should('contain.text', `${maxText}`)
+        })   
     });
 });

@@ -3,26 +3,24 @@ import { NavigationPage } from "../../cypress/google_maps-pages/Navigation";
 class Route{
         longestRoute () {
         
-        let routes=[];
+        let maxRoute= -1;
+        let maxText= -1;
+        let maxRouteElement=null;
         
         NavigationPage.allRoutes.each(($el)=>{
+            let current = $el.text().replace(/\D/g, '')
 
-            routes.push(
-                $el.text()
-                .replace(/\D/g, ''))
-        })
-        cy.log(routes)
-        
-        //Ne vidim drugi nacin da izvucem najduzu rutu,a ne mogu da skontam ovde gde uporno bagujem pa mi
-        //ne vraca maksimum iz niza
-        
-        let maxRoute = routes[0];
-        for ( let i = 0 ; i < routes.length ; i++ ) {
-            if(routes[i] >= maxRoute){
-                maxRoute = routes[i]
+            if( maxRoute < current ) {
+                maxRoute = current;
+                maxText = $el.text()
+                maxRouteElement = $el
             }
-        }
-        return maxRoute
+            
+            cy.wrap(maxRoute).as('maxRoute');
+            cy.wrap(maxText).as('maxText');
+            cy.wrap(maxRouteElement).as('maxRouteElement')
+
+        })
     }
 
     chooseARoute ( currentLocation, destination ) {
