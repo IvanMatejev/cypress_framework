@@ -1,6 +1,4 @@
-import { GoogleMapsPage } from "./GoogleMaps";
-
-class Route{
+class Main{
         longestRoute (routes) {
         
         let maxRoute= -1;
@@ -34,4 +32,4 @@ class Route{
 
 }
 
-export const RoutePage = new Route();
+export {Main};

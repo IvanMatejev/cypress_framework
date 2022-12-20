@@ -1,9 +1,11 @@
-class ViaMichelin{
+import {Main} from "../../cypress/google_maps-pages/Main"
+
+class ViaMichelin extends Main{
     allRoutesElements = "//*[contains(@class,'summary-container')]//li";
     currentLocationInputElement = "#departure";
     destinationInputElement = "#arrival";
     searchBtnElement = ".searchbox-submit-button";
-    acceptCookiesElement = ".didomi-continue-without-agreeing";
+    acceptCookiesElement = "#didomi-notice-agree-button";
     choosenRouteKmElement = ".highlight > .summary-details-item-distance > .summary-details-item-col-2"
 
     get allRoutes () {
@@ -14,7 +16,7 @@ class ViaMichelin{
         return cy.get(this.currentLocationInputElement)
     }
 
-    get destinationInput () {
+    get dectinationInput () {
         return cy.get(this.destinationInputElement)
     }
 
@@ -27,7 +29,7 @@ class ViaMichelin{
     }
 
     get choosenRouteKm () {
-        return cy.get(this.choosenRouteKm)
+        return cy.get()
     }
 }
 

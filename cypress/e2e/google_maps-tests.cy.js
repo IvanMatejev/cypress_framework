@@ -1,49 +1,70 @@
-import {RoutePage} from "../../cypress/google_maps-pages/Route"
+import {Main} from "../google_maps-pages/Main"
 import {GoogleMapsPage} from "../google_maps-pages/GoogleMaps"
 import {ViaMichelinPage} from "../google_maps-pages/ViaMichelinPage"
 
 describe('Google maps', () => {
 
     beforeEach(() => {
-        cy.visit(`${Cypress.env("baseUrl")}`);
+        cy.visit(`${Cypress.env("viaMichelin")}`);  
     });
     
-    it('Longest Route Google', () => {
+    it.skip('Longest Route Google', () => {
         
-        RoutePage.chooseADestination(GoogleMapsPage.dectinationInput,"Amsterdam")
+        let page;
 
-        GoogleMapsPage.routeBtn.click()
+        if(Cypress.env("googleMaps")){
+            page = GoogleMapsPage
+        }else if(Cypress.env("viaMichelin")){
+            page = ViaMichelinPage
+        }
 
-        RoutePage.chooseACurrentLocation(GoogleMapsPage.currentLocationInput,"Beograd")
+        cy.log(page)
+        
+        page.chooseADestination(page.dectinationInput,"Amsterdam")
 
-        GoogleMapsPage.carRoutesBtn.click()
+        page.routeBtn.click()
+
+        page.chooseACurrentLocation(page.currentLocationInput,"Beograd")
+
+        page.carRoutesBtn.click()
 
         
-        RoutePage.longestRoute(GoogleMapsPage.allRoutes)
+        page.longestRoute(page.allRoutes)
 
         cy.get('@maxRouteElement').click().type('{enter}')
        
         cy.get('@maxText').then(maxText => {
-            GoogleMapsPage.choosenRouteKm.should('contain.text', `${maxText}`)
+            page.choosenRouteKm.should('contain.text', `${maxText}`)
         })   
     });
 
-    it.skip('Longest Route ViaMichelin', () => {
+    it('Longest Route ViaMichelin', () => {
+
+        let page;
+
+        if(Cypress.env("googleMaps")){
+            page = GoogleMapsPage
+        }else if(Cypress.env("viaMichelin")){
+            page = ViaMichelinPage
+        }
         
-        ViaMichelinPage.acceptCookies.click()
+        cy.on("window:alert", (str) => {
+    
+            page.acceptCookies.click();
+        });
 
-        RoutePage.chooseADestination(ViaMichelinPage.dectinationInput,"Sombor").type("{enter}")
+        page.chooseADestination(page.dectinationInput,"Sombor").type("{enter}")
 
-        RoutePage.chooseACurrentLocation(ViaMichelinPage.currentLocationInput,"Beograd").type("{enter}")
+        page.chooseACurrentLocation(page.currentLocationInput,"Beograd").type("{enter}")
 
-        ViaMichelinPage.searchBtnElement.click();
+        page.searchBtnElement.click();
 
-        RoutePage.longestRout(ViaMichelinPage.allRoutes)
+        page.longestRout(page.allRoutes)
 
         cy.get('@maxRouteElement').click()
        
         cy.get('@maxText').then(maxText => {
-            ViaMichelinPage.choosenRouteKm.should('contain.text', `${maxText}`)
+            page.choosenRouteKm.should('contain.text', `${maxText}`)
         })   
     });
 });

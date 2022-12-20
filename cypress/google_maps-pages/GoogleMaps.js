@@ -1,4 +1,5 @@
-class GoogleMaps{
+import {Main} from "../../cypress/google_maps-pages/Main"
+class GoogleMaps extends Main{
 
     destinationInputElement = "#searchboxinput";
     currentLocationInputElement = "#sb_ifc50 > .tactile-searchbox-input";
@@ -7,8 +8,6 @@ class GoogleMaps{
     allRoutesElements = "//*[contains(@class,'tUEI8e')]/div";
     choosenRouteKmElement = "//*[contains(@class,'hPzYFf')]/span";
     ourRouteElement = "#section-directions-trip-1 > .MespJc";
-
-
 
     get dectinationInput () {
         return cy.get(this.destinationInputElement)
